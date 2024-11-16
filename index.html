@@ -8,8 +8,6 @@
     :root {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         text-align: center;
-
-        --tilt: 15deg
     }
 
     #subtitle {
@@ -48,10 +46,7 @@
         text-decoration: underline;
     }
 
-    #input {
-        position: relative;
-        top: 50px;
-        left: -200px;
+    textarea {
         resize: none;
         border: 3px solid;
         border-radius: 10px;
@@ -62,12 +57,29 @@
         font-size: 30px;
     }
 
+    #input {
+        position: relative;
+        top: 50px;
+        left: -50px;
+    }
+
     #inputtext {
         position: absolute;
-        top: 130px;
-        left: 250px;
+        border: 2px solid;
+        left: 300px;
         background-color: white;
-        border: 3px solid;
+    }
+
+    #output {
+        position: relative;
+        top: 50px;
+        left: 50px;
+    }
+
+    #outputtext {
+        position: relative;
+        top: 50px;
+        left: 200px;
     }
 
     
@@ -77,9 +89,10 @@
     <h1 id="title">The Acronymizer</h1>
     <div id="subtitle">By <a id="anicetus" href="https://www.github.com/invictus-anic3tus/" target="_blank" rel="noopener noreferrer">Anicetus</a></div>
     <textarea id="input"></textarea>
+    <textarea id="output"></textarea>
+    
     <p id="inputtext">Input</p>
-
-    <div id=""></div>
+    <p id="outputtext">Output</p>
 </body>
 <script>
 
