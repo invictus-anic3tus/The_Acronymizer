@@ -186,6 +186,7 @@
     function changetext() {
 
         active = true;
+        console.log("mouse");
 
         var i = 0;
         var targetcolor = [
@@ -201,7 +202,7 @@
         var rgbValues = [32, 70, 238];
 
         setTimeout(scrolltext, 100);
-        
+
         function scrolltext() {
 
             if (active) {
@@ -231,6 +232,7 @@
     }
 
     function defaulttext() {
+        console.log("unmouse");
         active = false;
         title.textContent = "The Acronymizer";
     }
