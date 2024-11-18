@@ -128,7 +128,7 @@
 </style>
 
 <body>
-    
+
     <div id="navbar">
         <h1 id="title" onmouseover="changetext()" onmouseleave="defaulttext()">
             The Acronymizer
@@ -198,32 +198,36 @@
         var gdist = 0;
         var bdist = 0;
 
-        var rgbValues = [32,70,238];
+        var rgbValues = [32, 70, 238];
 
-        while(active == true) {setTimeout(scrolltext, 100);}
-        
+        setTimeout(scrolltext, 100);
+
 
         function scrolltext() {
-            
-            rgbValues = currentColor.match(/\d+/g).map(Number);
-            console.log(rgbValues);
 
-            rdist = targetcolor[0] - rgbValues[0];
-            gdist = targetcolor[1] - rgbValues[1];
-            bdist = targetcolor[2] - rgbValues[2];
+            if (active) {
+                rgbValues = currentColor.match(/\d+/g).map(Number);
+                console.log(rgbValues);
+
+                rdist = targetcolor[0] - rgbValues[0];
+                gdist = targetcolor[1] - rgbValues[1];
+                bdist = targetcolor[2] - rgbValues[2];
 
 
-            if (i < textvals.length) {
+                if (i < textvals.length) {
 
-                let newRedValue = rgbValues[0] - 2;
-                let newGreenValue = rgbValues[1] - 2;
-                let newBlueValue = rgbValues[2] - 2;
+                    let newRedValue = rgbValues[0] - 2;
+                    let newGreenValue = rgbValues[1] - 2;
+                    let newBlueValue = rgbValues[2] - 2;
 
-                let newcolor = `rgb(${newRedValue}, ${newGreenValue}, ${newBlueValue})`;
-                navbar.style.backgroundColor = newcolor;
-                title.textContent = textvals[i];
-                i++;
+                    let newcolor = `rgb(${newRedValue}, ${newGreenValue}, ${newBlueValue})`;
+                    navbar.style.backgroundColor = newcolor;
+                    title.textContent = textvals[i];
+                    i++;
+                }
             }
+
+
         }
     }
 
