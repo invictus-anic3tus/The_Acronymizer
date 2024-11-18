@@ -180,7 +180,7 @@
 
             var rgbValues = currentColor.match(/\d+/g).map(Number); // Extract RGB values
 
-            rgbValues[0] = newRedValue;
+            rgb[0] = newRedValue;
 
             if (i < textvals.length) {
                 navbar.style.backgroundColor = `rgb(${rgbValues.join(",")})`;
