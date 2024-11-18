@@ -6,14 +6,34 @@
 </head>
 <style>
     :root {
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+            "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
         text-align: center;
+    }
+
+    #navbar {
+        font-size: xx-large;
+        font-weight: bold;
+        background-color: rgb(32, 70, 238);
+        padding: 5px;
+        height: 150px;
+    }
+
+    #title {
+        position: relative;
+        top: 40px;
+        color: white;
+        margin: auto;
+        width: 650px;
     }
 
     #subtitle {
         height: 25px;
+        width: 120px;
+        margin: auto;
         font-weight: 900;
         padding-bottom: 10px;
+        padding-top: 15px;
         transform: rotate(0deg);
         transition-duration: 0.5s;
     }
@@ -60,18 +80,26 @@
     #input {
         position: relative;
         top: 50px;
-        left: -50px;
+        left: -200px;
     }
 
     #output {
         position: relative;
-        top: 50px;
-        left: 50px;
+        top: -30px;
+        left: 200px;
+        border: 3px solid;
+        border-radius: 10px;
+        margin: auto;
+        width: 300px;
+        height: 50px;
+        padding: 10px;
+        font-weight: 900;
+        font-size: 30px;
     }
 
     #inputtext {
         position: relative;
-        top: -40px;
+        top: -117px;
         left: -100px;
         margin: auto;
         width: 60px;
@@ -81,33 +109,90 @@
 
     #outputtext {
         position: relative;
-        top: -61px;
+        top: -138px;
         left: 105px;
         margin: auto;
         width: 70px;
         background-color: white;
         font-size: large;
     }
-
-    
-
-    
-
-    
 </style>
 
 <body>
-    <h1 id="title">The Acronymizer</h1>
-    <div id="subtitle">By <a id="anicetus" href="https://www.github.com/invictus-anic3tus/" target="_blank" rel="noopener noreferrer">Anicetus</a></div>
+    <div id="navbar">
+        <h1 id="title" onmouseover="changetext()" onmouseleave="defaulttext()">
+            The Acronymizer
+        </h1>
+    </div>
+
+    <div id="subtitle">
+        By
+        <a id="anicetus" href="https://www.github.com/invictus-anic3tus/" target="_blank"
+            rel="noopener noreferrer">Anicetus</a>
+    </div>
     <textarea id="input"></textarea>
-    <textarea id="output"></textarea>
-    
+    <div id="output"></div>
+
     <p id="inputtext">Input</p>
     <p id="outputtext">Output</p>
 </body>
 <script>
+    const title = document.getElementById("title");
+    const navbar = document.getElementById("navbar");
 
-    
+    const textvals = [
+        "tHe AcRoNyMiZeR",
+        "ThE aCrOnYmIzEr",
+        "THE acronymizer",
+        "the ACRONYMIZER",
+        "The acriukmizef",
+        "Tje AmizercaneR",
+        "The asdlfjasflk",
+        "The k18tp23ppfk",
+        "The A9udepzmom;",
+        "The ALKjFSfu094",
+        "The Aasfwr3345d",
+        "The Abwaf;lafad",
+        "The Acv76745eff",
+        "The Ac23zfdahgf",
+        "The Acfg6555chj",
+        "The Acrx12123rf",
+        "The Acr2rt4tutf",
+        "The Acrq234dsaa",
+        "The Acroa[sd]fd",
+        "The Acron12uofj",
+        "The Acronylajfj",
+        "The Acronymfl;a",
+        "The Acronymi4fA",
+        "The Acronymizgf",
+        "The Acronymize5",
+        "The Acronymizer",
+    ];
+
+    function changetext() {
+
+        var i = 0;
+        setInterval(scrolltext, 100);
+
+        function scrolltext() {
+            
+            var currentColor = window.getComputedStyle(navbar).backgroundColor;
+
+            var rgbValues = currentColor.match(/\d+/g).map(Number); // Extract RGB values
+
+            rgbValues[0] = newRedValue;
+
+            if (i < textvals.length) {
+                navbar.style.backgroundColor = `rgb(${rgbValues.join(",")})`;
+                title.textContent = textvals[i];
+                i++;
+            }
+        }
+    }
+
+    function defaulttext() {
+        title.textContent = "The Acronymizer";
+    }
 </script>
 
 </html>
