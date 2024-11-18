@@ -145,10 +145,14 @@
 
     <p id="inputtext">Input</p>
     <p id="outputtext">Output</p>
+
+    <input type="image" src="send.png" onclick="submit()">
 </body>
 <script>
     const title = document.getElementById("title");
     const navbar = document.getElementById("navbar");
+    const inputtext = document.getElementById("input").value;
+
     var currentColor = window.getComputedStyle(navbar).backgroundColor;
 
     var active = false;
@@ -238,6 +242,11 @@
         console.log("unmouse");
         active = false;
         title.textContent = "The Acronymizer";
+        i = 0;
+    }
+
+    function submit() {
+        alert(inputtext);
     }
 </script>
 
