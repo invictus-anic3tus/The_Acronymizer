@@ -139,6 +139,7 @@
 <script>
     const title = document.getElementById("title");
     const navbar = document.getElementById("navbar");
+    var currentColor = window.getComputedStyle(navbar).backgroundColor;
 
     const textvals = [
         "tHe AcRoNyMiZeR",
@@ -169,21 +170,33 @@
         "The Acronymizer",
     ];
 
+    var changing = true;
     function changetext() {
 
         var i = 0;
-        setInterval(scrolltext, 100);
+        var targetcolor = [
+            Math.floor(Math.random() * 128) + 128,
+            Math.floor(Math.random() * 128) + 128,
+            Math.floor(Math.random() * 128) + 128
+        ];
+
+        while (changing == true) {setTimeout(scrolltext, 100);}
 
         function scrolltext() {
             
-            var currentColor = window.getComputedStyle(navbar).backgroundColor;
+            var rgbValues = currentColor.match(/\d+/g).map(Number);
 
-            var rgbValues = currentColor.match(/\d+/g).map(Number); // Extract RGB values
-
-            rgb[0] = newRedValue;
+            //var rps = currentColor
+            
 
             if (i < textvals.length) {
-                navbar.style.backgroundColor = `rgb(${rgbValues.join(",")})`;
+
+                let newRedValue = rgbValues[0] - 2;
+                let newGreenValue = rgbValues[0] - 2;
+                let newBlueValue = rgbValues[0] - 2;
+
+                let newcolor = `rgb(${newRedValue}, ${newGreenValue}, ${newBlueValue})`;
+                navbar.style.backgroundColor = newcolor;
                 title.textContent = textvals[i];
                 i++;
             }
@@ -191,6 +204,7 @@
     }
 
     function defaulttext() {
+        changing = false;
         title.textContent = "The Acronymizer";
     }
 </script>
