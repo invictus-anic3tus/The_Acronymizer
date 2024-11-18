@@ -202,7 +202,7 @@
 
         var rgbValues = [32, 70, 238];
 
-        setTimeout(scrolltext, 100);
+        setInterval(scrolltext, 100);
 
         function scrolltext() {
 
@@ -217,7 +217,7 @@
 
                 if (i < textvals.length) {
 
-                    console.log(`${i} < textvals`);
+                    console.log(`${i} < textvals.length`);
 
                     let newRedValue = rgbValues[0] - 2;
                     let newGreenValue = rgbValues[1] - 2;
