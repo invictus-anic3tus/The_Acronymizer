@@ -151,6 +151,8 @@
     const navbar = document.getElementById("navbar");
     var currentColor = window.getComputedStyle(navbar).backgroundColor;
 
+    var active = true;
+
     const textvals = [
         "tHe AcRoNyMiZeR",
         "ThE aCrOnYmIzEr",
@@ -196,7 +198,8 @@
 
         var rgbValues = [32,70,238];
 
-        setInterval(scrolltext, 100);
+        while(active) {setTimeout(scrolltext, 100);}
+        
 
         function scrolltext() {
             
@@ -223,6 +226,7 @@
     }
 
     function defaulttext() {
+        active = false;
         title.textContent = "The Acronymizer";
     }
 </script>
