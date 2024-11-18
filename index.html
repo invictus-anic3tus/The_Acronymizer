@@ -11,7 +11,6 @@
             "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
         text-align: center;
         background-color: white;
-        color: black;
     }
 
     #navbar {
@@ -202,6 +201,7 @@
         function scrolltext() {
             
             rgbValues = currentColor.match(/\d+/g).map(Number);
+            console.log(rgbValues);
 
             rdist = targetcolor[0] - rgbValues[0];
             gdist = targetcolor[1] - rgbValues[1];
@@ -211,8 +211,8 @@
             if (i < textvals.length) {
 
                 let newRedValue = rgbValues[0] - 2;
-                let newGreenValue = rgbValues[0] - 2;
-                let newBlueValue = rgbValues[0] - 2;
+                let newGreenValue = rgbValues[1] - 2;
+                let newBlueValue = rgbValues[2] - 2;
 
                 let newcolor = `rgb(${newRedValue}, ${newGreenValue}, ${newBlueValue})`;
                 navbar.style.backgroundColor = newcolor;
