@@ -151,7 +151,7 @@
     const navbar = document.getElementById("navbar");
     var currentColor = window.getComputedStyle(navbar).backgroundColor;
 
-    var active = true;
+    var active = false;
 
     const textvals = [
         "tHe AcRoNyMiZeR",
@@ -185,6 +185,8 @@
 
     function changetext() {
 
+        active = true;
+
         var i = 0;
         var targetcolor = [
             Math.floor(Math.random() * 128) + 128,
@@ -198,7 +200,7 @@
 
         var rgbValues = [32,70,238];
 
-        while(active) {setTimeout(scrolltext, 100);}
+        while(active == true) {setTimeout(scrolltext, 100);}
         
 
         function scrolltext() {
