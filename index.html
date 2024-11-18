@@ -3,6 +3,7 @@
 
 <head>
     <title>The Acronymizer</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <style>
     :root {
@@ -128,6 +129,7 @@
 </style>
 
 <body>
+    
     <div id="navbar">
         <h1 id="title" onmouseover="changetext()" onmouseleave="defaulttext()">
             The Acronymizer
@@ -179,7 +181,7 @@
         "The Acronymizer",
     ];
 
-    var changing = true;
+
     function changetext() {
 
         var i = 0;
@@ -189,14 +191,22 @@
             Math.floor(Math.random() * 128) + 128
         ];
 
-        while (changing == true) {setTimeout(scrolltext, 100);}
+        var rdist = 0;
+        var gdist = 0;
+        var bdist = 0;
+
+        var rgbValues = [32,70,238];
+
+        setInterval(scrolltext, 100);
 
         function scrolltext() {
             
-            var rgbValues = currentColor.match(/\d+/g).map(Number);
+            rgbValues = currentColor.match(/\d+/g).map(Number);
 
-            //var rps = currentColor
-            
+            rdist = targetcolor[0] - rgbValues[0];
+            gdist = targetcolor[1] - rgbValues[1];
+            bdist = targetcolor[2] - rgbValues[2];
+
 
             if (i < textvals.length) {
 
@@ -213,7 +223,6 @@
     }
 
     function defaulttext() {
-        changing = false;
         title.textContent = "The Acronymizer";
     }
 </script>
