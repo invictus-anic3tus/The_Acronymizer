@@ -182,13 +182,14 @@
         "The Acronymizer",
     ];
 
+    let i = 0;
 
     function changetext() {
 
         active = true;
         console.log("mouse");
 
-        var i = 0;
+        
         var targetcolor = [
             Math.floor(Math.random() * 128) + 128,
             Math.floor(Math.random() * 128) + 128,
@@ -215,6 +216,8 @@
 
 
                 if (i < textvals.length) {
+
+                    console.log("i < textvals");
 
                     let newRedValue = rgbValues[0] - 2;
                     let newGreenValue = rgbValues[1] - 2;
