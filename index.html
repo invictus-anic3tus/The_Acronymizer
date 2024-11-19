@@ -103,7 +103,10 @@
         height: 50px;
         padding: 10px;
         font-weight: 900;
-        font-size: 30px;
+        font-size: 17px;
+        text-align: left;
+        overflow-x: auto;
+        overflow-y: scroll;
     }
 
     #inputtext {
@@ -125,12 +128,21 @@
         background-color: white;
         font-size: large;
     }
+
+
+    #send {
+        position: relative;
+        width: 30px;
+        top: -110px;
+        left: -65px;
+    }
+
 </style>
 
 <body>
 
     <div id="navbar">
-        <h1 id="title" onmouseover="changetext()" onmouseleave="defaulttext()">
+        <h1 id="title">
             The Acronymizer
         </h1>
     </div>
@@ -141,17 +153,20 @@
             rel="noopener noreferrer">Anicetus</a>
     </div>
     <textarea id="input"></textarea>
-    <div id="output"></div>
+    <div id="output">HI THEREE PEEPES AAHDSADJLKASD wasdfjfajklsdf oooodle</div>
 
     <p id="inputtext">Input</p>
     <p id="outputtext">Output</p>
 
-    <input type="image" src="send.png" onclick="submit()">
+    <input type="image" src="send.png" onclick="submit()" id="send">
 </body>
 <script>
     const title = document.getElementById("title");
     const navbar = document.getElementById("navbar");
-    const inputtext = document.getElementById("input").value;
+    const send = document.getElementById("send");
+
+    const ms = 100;
+    var inputtext = "";
 
     var currentColor = window.getComputedStyle(navbar).backgroundColor;
 
@@ -188,6 +203,8 @@
 
     let i = 0;
 
+    let intervalId = null;
+
     function changetext() {
 
         active = true;
@@ -206,7 +223,11 @@
 
         var rgbValues = [32, 70, 238];
 
-        setInterval(scrolltext, 100);
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
+
+        intervalId = setInterval(scrolltext, ms);
 
         function scrolltext() {
 
@@ -231,6 +252,9 @@
                     navbar.style.backgroundColor = newcolor;
                     title.textContent = textvals[i];
                     i++;
+                } else {
+                    clearInterval(intervalId);
+                    intervalId = null;
                 }
             }
 
@@ -239,14 +263,39 @@
     }
 
     function defaulttext() {
-        console.log("unmouse");
+
+        if (intervalId) {
+            clearInterval(intervalId); // Clear any existing interval
+            intervalId = null; // Reset the interval ID
+        }
         active = false;
+        console.log("unmouse");
         title.textContent = "The Acronymizer";
         i = 0;
     }
 
+    title.addEventListener("mouseover", changetext);
+    title.addEventListener("mouseout", defaulttext);
+
+    function sendColor() {
+        console.log("Send Hover");
+        send.src = "send-hover.png";
+    }
+    function sendNorm() {
+        console.log("Send Un-Hover");
+        send.src = "send.png";
+    }
+
+    send.addEventListener("mouseover", sendColor);
+    send.addEventListener("mouseout", sendNorm);
+    
     function submit() {
-        alert(inputtext);
+        inputtext = document.getElementById("input").value;
+        console.log(`Send Click: ${inputtext}`);
+        send.src = "send-clicked.png";
+        setTimeout(sendColor, 200);
+
+        
     }
 </script>
 
