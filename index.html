@@ -137,6 +137,10 @@
         left: -65px;
     }
 
+    /* #send:active {
+        transform: translateX(1920px);
+        transition-duration: 4s;
+    } */
 </style>
 
 <body>
@@ -201,6 +205,12 @@
         "The Acronymizer",
     ];
 
+    
+
+
+
+
+
     let i = 0;
 
     let intervalId = null;
@@ -210,7 +220,7 @@
         active = true;
         console.log("mouse");
 
-        
+
         var targetcolor = [
             Math.floor(Math.random() * 128) + 128,
             Math.floor(Math.random() * 128) + 128,
@@ -277,26 +287,39 @@
     title.addEventListener("mouseover", changetext);
     title.addEventListener("mouseout", defaulttext);
 
-    function sendColor() {
-        console.log("Send Hover");
-        send.src = "send-hover.png";
-    }
-    function sendNorm() {
-        console.log("Send Un-Hover");
-        send.src = "send.png";
-    }
-
-    send.addEventListener("mouseover", sendColor);
-    send.addEventListener("mouseout", sendNorm);
-    
     function submit() {
         inputtext = document.getElementById("input").value;
-        console.log(`Send Click: ${inputtext}`);
-        send.src = "send-clicked.png";
-        setTimeout(sendColor, 200);
 
+        console.log(`Send Click: ${inputtext}`);
+
+        sendFly();
+
+
+    }
+    let positionX = parseInt(send.style.left, 10) || 0;
+    const originalX = parseInt(send.style.left, 10) || 0;
+    let direction = 1;
+    let wrapped = false;
+    
+    function sendFly() {
+        const rect = send.getBoundingClientRect();
+        const distanceFromLeft = rect.left;
+
+        positionX += 5 * direction;
+
+        if (positionX > window.innerWidth - (distanceFromLeft - 890)) {
+            positionX = -send.offsetWidth - (distanceFromLeft - 890);
+            wrapped = true;
+        }
+
+        send.style.left = positionX + "px";
+
+        if (positionX >= originalX - 65 && wrapped) {wrapped=false;}
+        else {requestAnimationFrame(sendFly);}
         
     }
+
+    
 </script>
 
 </html>
