@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Test</title>
+    <script type="module" src="libs/transformers.js"></script>
+    <script type="module">
+        console.log("Hello, world!");
+    </script>
+</head>
+<body>
+    <h1>Pipeline Test</h1>
+    <script>
+        async function testPipeline() {
+            try {
+                console.log("Transformers object:", window.transformers);
+
+                // Ensure pipeline is available
+                const { pipeline } = window.transformers;
+                console.log("Pipeline function:", pipeline);
+
+                // Test the pipeline initialization
+                const generator = await pipeline('text-generation', 'Xenova/gpt2');
+                console.log("Pipeline initialized:", generator);
+            } catch (error) {
+                console.error("Error during pipeline test:", error);
+            }
+        }
+
+        testPipeline();
+    </script>
+</body>
+</html>

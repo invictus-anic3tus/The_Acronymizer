@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>The Acronymizer</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@xenova/transformers"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
 <style>
@@ -136,11 +137,6 @@
         top: -110px;
         left: -65px;
     }
-
-    /* #send:active {
-        transform: translateX(1920px);
-        transition-duration: 4s;
-    } */
 </style>
 
 <body>
@@ -168,6 +164,7 @@
     const title = document.getElementById("title");
     const navbar = document.getElementById("navbar");
     const send = document.getElementById("send");
+    const output = document.getElementById("output");
 
     const ms = 100;
     var inputtext = "";
@@ -204,12 +201,6 @@
         "The Acronymize5",
         "The Acronymizer",
     ];
-
-    
-
-
-
-
 
     let i = 0;
 
@@ -294,13 +285,14 @@
 
         sendFly();
 
-
+        generateResponse(inputtext);
     }
+
     let positionX = parseInt(send.style.left, 10) || 0;
     const originalX = parseInt(send.style.left, 10) || 0;
     let direction = 1;
     let wrapped = false;
-    
+
     function sendFly() {
         const rect = send.getBoundingClientRect();
         const distanceFromLeft = rect.left;
@@ -314,12 +306,38 @@
 
         send.style.left = positionX + "px";
 
-        if (positionX >= originalX - 65 && wrapped) {wrapped=false;}
-        else {requestAnimationFrame(sendFly);}
-        
+        if (positionX >= originalX - 65 && wrapped) { wrapped = false; }
+        else { requestAnimationFrame(sendFly); }
+
     }
 
-    
+
+    async function generateResponse(inputText) {
+
+        try {
+            // Use the pipeline function for text generation
+            console.log("Initializing pipeline...");
+            const pipeline = await window.transformers.pipeline('text-generation', 'Xenova/gpt2');
+
+            console.log("Pipeline initialized successfully!");
+
+            // Generate a response
+            const output = await pipeline(inputText, {
+                max_length: 50,
+                num_return_sequences: 1,
+            });
+
+            console.log("Output:", output);
+
+            // Display the response
+            document.getElementById("output").innerText = output[0].generated_text;
+        } catch (error) {
+            console.error("Error generating response:", error);
+            document.getElementById("output").innerText = "An error occurred: " + error.message;
+        }
+    }
+
+
 </script>
 
 </html>
