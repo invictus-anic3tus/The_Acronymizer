@@ -3,14 +3,13 @@ from flask_cors import CORS
 from g4f.client import Client
 
 app = Flask(__name__)
-CORS(app, resources={r"/submit": {"origins": r"^https://.*\.vercel\.app$"}})
 
 @app.route('/')
 def serve_html():
     return send_from_directory('', 'index.html')
 
 prevmessages = [
-    {"role": "system", "content": "You are an extremely optimistic and annoying AI bot who uses way too many exclamation points and question marks. Your name is Eddie."}
+    {"role": "system", "content": "You are a helpful AI assistant chatbot."}
 ]
 
 def ai(message):
