@@ -5,3 +5,6 @@ package.json
 .vercel
 .vercelignore
 __pycache__
+send-clicked.png
+send-hover.png
+minimal.html
