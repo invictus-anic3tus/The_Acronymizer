@@ -4,7 +4,7 @@ from g4f.client import Client
 
 app = Flask(__name__)
 CORS(app, resources={
-    r"/submit": {"origins": [r"^http://.*\.app\.github\.dev$", r"^https://.*\.github\.io$"]}
+    r"/submit": {"origins": [r"^http://.*\.app\.github\.dev$", r"https://invictus-anic3tus.github.io/The_Acronymizer/"]}
 })
 
 
