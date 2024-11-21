@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>The Acronymizer</title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@xenova/transformers"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
 <style>
@@ -153,7 +153,7 @@
             rel="noopener noreferrer">Anicetus</a>
     </div>
     <textarea id="input"></textarea>
-    <div id="output">HI THEREE PEEPES AAHDSADJLKASD wasdfjfajklsdf oooodle</div>
+    <div id="output"></div>
 
     <p id="inputtext">Input</p>
     <p id="outputtext">Output</p>
@@ -314,27 +314,28 @@
 
     async function generateResponse(inputText) {
 
-        try {
-            // Use the pipeline function for text generation
-            console.log("Initializing pipeline...");
-            const pipeline = await window.transformers.pipeline('text-generation', 'Xenova/gpt2');
+    try {
 
-            console.log("Pipeline initialized successfully!");
+        const response = await fetch('/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message: inputText })
+        });
 
-            // Generate a response
-            const output = await pipeline(inputText, {
-                max_length: 50,
-                num_return_sequences: 1,
-            });
-
-            console.log("Output:", output);
-
-            // Display the response
-            document.getElementById("output").innerText = output[0].generated_text;
-        } catch (error) {
-            console.error("Error generating response:", error);
-            document.getElementById("output").innerText = "An error occurred: " + error.message;
+        if (!response.ok) {
+          const errorText = await response.text(); // Reads the error as text
+          console.error("Error response:", errorText);
+          throw new Error("Server responded with an error");
         }
+
+        const data = await response.json();
+        document.getElementById('output').innerText = data.response;
+      } catch (error) {
+        console.error("Error:", error);
+        document.getElementById('output').innerText = "An error occurred, please try again.";
+      }
     }
 
 
