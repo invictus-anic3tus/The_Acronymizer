@@ -134,7 +134,25 @@
         position: relative;
         width: 30px;
         top: -110px;
-        left: -65px;
+        left: 150px;
+    }
+
+    #note {
+        width: fit-content;
+        margin: auto;
+        border: 3px solid;
+        border-radius: 10px;
+        padding: 10px;
+        font-weight: 300;
+    }
+
+    .container {
+        padding: 20px;
+        font-size: larger;
+    }
+
+    .checkmark {
+        size: 25px;
     }
 </style>
 
@@ -158,6 +176,13 @@
     <p id="outputtext">Output</p>
 
     <input type="image" src="send.png" onclick="submit()" id="send">
+
+    <label class="container">Allow non-acronymized words? <sub>and, or, etc.</sub>
+        <input type="checkbox" checked="checked" id="checkbox">
+        <span class="checkmark"></span>
+    </label>
+
+    <div id="note">All numbers, spaces, and special characters will be ignored.</div>
 </body>
 <script>
     const title = document.getElementById("title");
@@ -201,123 +226,160 @@
         "The Acronymizer",
     ];
 
+    // const nouns = {
+    //     A: ["apple", "anchor", "artist", "arrow", "ant", "airport", "army", "actor", "arch", "armor"],
+    //     B: ["ball", "banana", "bridge", "book", "button", "beach", "box", "bear", "bird", "bicycle"],
+    //     C: ["cat", "car", "castle", "cloud", "circle", "candle", "coin", "chair", "cup", "crab"],
+    //     D: ["dog", "door", "drum", "dancer", "desk", "dove", "diamond", "dragon", "doll", "dish"],
+    //     E: ["elephant", "eagle", "engine", "earth", "eye", "egg", "elbow", "envelope", "edge", "ember"],
+    //     F: ["flower", "frog", "fish", "forest", "flame", "feather", "fountain", "flag", "field", "fox"],
+    //     G: ["guitar", "garden", "glass", "gem", "giraffe", "glove", "goat", "gate", "gift", "grain"],
+    //     H: ["house", "hat", "horse", "hammer", "hill", "heart", "harp", "honey", "horizon", "helmet"],
+    //     I: ["island", "ice", "idea", "insect", "ink", "iron", "ivory", "item", "igloo", "illusion"],
+    //     J: ["jewel", "jungle", "jar", "jacket", "jet", "joker", "journal", "jug", "journey", "jam"],
+    //     K: ["kite", "key", "kangaroo", "king", "kitchen", "knot", "knife", "kitten", "kayak", "keyboard"],
+    //     L: ["lion", "lamp", "lake", "leaf", "ladder", "lighthouse", "lock", "log", "loaf", "lemon"],
+    //     M: ["mountain", "mirror", "mouse", "mask", "moon", "market", "monster", "map", "motor", "mist"],
+    //     N: ["nest", "needle", "necklace", "night", "name", "net", "nail", "note", "number", "novel"],
+    //     O: ["ocean", "orange", "owl", "oak", "oven", "organ", "onion", "orbit", "ox", "oasis"],
+    //     P: ["pencil", "painting", "puppy", "pearl", "pumpkin", "pond", "plane", "peach", "pot", "pan"],
+    //     Q: ["queen", "quill", "quilt", "quart", "question", "quartz", "queue", "quokka", "quiz", "quote"],
+    //     R: ["river", "rose", "rabbit", "ring", "rainbow", "rope", "road", "robot", "reef", "room"],
+    //     S: ["star", "sand", "ship", "shield", "stone", "sword", "sun", "shell", "storm", "seat"],
+    //     T: ["tree", "table", "tiger", "torch", "tower", "trail", "ticket", "tank", "tail", "train"],
+    //     U: ["umbrella", "universe", "urchin", "utensil", "uniform", "unit", "umpire", "upholstery", "uranium", "utopia"],
+    //     V: ["vase", "violin", "valley", "vulture", "vehicle", "village", "vine", "vault", "van", "victory"],
+    //     W: ["window", "water", "whale", "wagon", "wind", "wolf", "wheel", "wave", "wing", "wood"],
+    //     X: ["xylophone", "xenon", "xyst", "xerophyte", "xenolith", "xenophobe", "xiphoid", "xerography", "xanthin", "xenopus"],
+    //     Y: ["yacht", "yak", "yard", "yarn", "yawn", "year", "yolk", "yeti", "youth", "yield"],
+    //     Z: ["zebra", "zone", "zoo", "zigzag", "zeppelin", "zipper", "zenith", "zinnia", "zodiac", "zombie"]
+    // };
+
     const adjectives = {
-        A: ["amazing", "ambitious", "artistic", "adorable", "awkward", "agile", "agreeable", "astounding", "adventurous", "assertive"],
-        B: ["brilliant", "bold", "bright", "bizarre", "bouncy", "benevolent", "blissful", "brave", "bubbly", "boisterous"],
-        C: ["creative", "calm", "courageous", "charming", "cheerful", "curious", "clever", "compassionate", "candid", "confident"],
-        D: ["daring", "dazzling", "dependable", "determined", "diligent", "dynamic", "delightful", "dramatic", "dreamy", "decisive"],
-        E: ["energetic", "earnest", "eager", "enthusiastic", "elegant", "excellent", "exuberant", "efficient", "empathetic", "exciting"],
-        F: ["fabulous", "friendly", "fearless", "faithful", "funny", "fantastic", "flawless", "fierce", "festive", "frank"],
-        G: ["generous", "gentle", "gorgeous", "graceful", "genuine", "glorious", "gregarious", "gifted", "gleeful", "great"],
-        H: ["happy", "humble", "honest", "humorous", "handsome", "hopeful", "helpful", "hearty", "harmonious", "heroic"],
-        I: ["impressive", "intelligent", "innovative", "independent", "inspired", "imaginative", "invincible", "insightful", "incredible", "industrious"],
-        J: ["jovial", "jolly", "joyful", "jubilant", "jazzy", "jaunty", "judicious", "just", "jocular", "jumpy"],
-        K: ["kind", "keen", "knowledgeable", "kingly", "kooky", "kosher", "kaleidoscopic", "knightly", "kinetic", "knowing"],
-        L: ["lovely", "loyal", "lively", "lucid", "lucky", "luxurious", "laughable", "logical", "likable", "legendary"],
-        M: ["magnificent", "merry", "modest", "marvelous", "meticulous", "motivated", "mighty", "majestic", "memorable", "musical"],
-        N: ["nice", "nifty", "noble", "neat", "nurturing", "nonchalant", "noteworthy", "nimble", "notable", "neighborly"],
-        O: ["outstanding", "optimistic", "original", "open", "obedient", "orderly", "outgoing", "observant", "opulent", "overt"],
-        P: ["playful", "pleasant", "peaceful", "patient", "positive", "polished", "passionate", "persistent", "profound", "proud"],
-        Q: ["quick", "quiet", "quirky", "quaint", "qualified", "quizzical", "quintessential", "queenly", "quarrelsome", "quixotic"],
-        R: ["radiant", "resilient", "reliable", "resourceful", "respectful", "remarkable", "rational", "refreshing", "robust", "relentless"],
-        S: ["smart", "strong", "serene", "sincere", "sophisticated", "sociable", "spectacular", "steadfast", "supportive", "sensible"],
-        T: ["talented", "thoughtful", "trustworthy", "thankful", "tender", "tenacious", "terrific", "tranquil", "tactful", "truthful"],
-        U: ["unique", "upbeat", "understanding", "united", "unwavering", "useful", "uplifting", "untiring", "uncommon", "upstanding"],
-        V: ["vibrant", "valiant", "virtuous", "vivid", "versatile", "vital", "victorious", "vigorous", "venerable", "vast"],
-        W: ["wise", "witty", "warm", "wonderful", "willing", "wealthy", "wondrous", "winsome", "watchful", "whimsical"],
-        X: ["xenial", "xeric", "xenodochial", "xenophobic", "xenogenic", "xylophonic", "xylotomous", "xenotropic", "xenacious", "xanthic"],
-        Y: ["youthful", "yellowish", "yearning", "yummy", "yielding", "yonder", "yare", "yeomanly", "yawning", "yo-yoing"],
-        Z: ["zealous", "zesty", "zany", "zenithal", "zephyrous", "zonal", "zodiacal", "zooming", "zippy", "zestful"]
+        A: ["Amazing", "Ambitious", "Artistic", "Adorable", "Awkward", "Agile", "Agreeable", "Astounding", "Adventurous", "Assertive"],
+        B: ["Brilliant", "Bold", "Bright", "Bizarre", "Bouncy", "Benevolent", "Blissful", "Brave", "Bubbly", "Boisterous"],
+        C: ["Creative", "Calm", "Courageous", "Charming", "Cheerful", "Curious", "Clever", "Compassionate", "Candid", "Confident"],
+        D: ["Daring", "Dazzling", "Dependable", "Determined", "Diligent", "Dynamic", "Delightful", "Dramatic", "Dreamy", "Decisive"],
+        E: ["Energetic", "Earnest", "Eager", "Enthusiastic", "Elegant", "Excellent", "Exuberant", "Efficient", "Empathetic", "Exciting"],
+        F: ["Fabulous", "Friendly", "Fearless", "Faithful", "Funny", "Fantastic", "Flawless", "Fierce", "Festive", "Frank"],
+        G: ["Generous", "Gentle", "Gorgeous", "Graceful", "Genuine", "Glorious", "Gregarious", "Gifted", "Gleeful", "Great"],
+        H: ["Happy", "Humble", "Honest", "Humorous", "Handsome", "Hopeful", "Helpful", "Hearty", "Harmonious", "Heroic"],
+        I: ["Impressive", "Intelligent", "Innovative", "Independent", "Inspired", "Imaginative", "Invincible", "Insightful", "Incredible", "Industrious"],
+        J: ["Jovial", "Jolly", "Joyful", "Jubilant", "Jazzy", "Jaunty", "Judicious", "Just", "Jocular", "Jumpy"],
+        K: ["Kind", "Keen", "Knowledgeable", "Kingly", "Kooky", "Kosher", "Kaleidoscopic", "Knightly", "Kinetic", "Knowing"],
+        L: ["Lovely", "Loyal", "Lively", "Lucid", "Lucky", "Luxurious", "Laughable", "Logical", "Likable", "Legendary"],
+        M: ["Magnificent", "Merry", "Modest", "Marvelous", "Meticulous", "Motivated", "Mighty", "Majestic", "Memorable", "Musical"],
+        N: ["Nice", "Nifty", "Noble", "Neat", "Nurturing", "Nonchalant", "Noteworthy", "Nimble", "Notable", "Neighborly"],
+        O: ["Outstanding", "Optimistic", "Original", "Open", "Obedient", "Orderly", "Outgoing", "Observant", "Opulent", "Overt"],
+        P: ["Playful", "Pleasant", "Peaceful", "Patient", "Positive", "Polished", "Passionate", "Persistent", "Profound", "Proud"],
+        Q: ["Quick", "Quiet", "Quirky", "Quaint", "Qualified", "Quizzical", "Quintessential", "Queenly", "Quarrelsome", "Quixotic"],
+        R: ["Radiant", "Resilient", "Reliable", "Resourceful", "Respectful", "Remarkable", "Rational", "Refreshing", "Robust", "Relentless"],
+        S: ["Smart", "Strong", "Serene", "Sincere", "Sophisticated", "Sociable", "Spectacular", "Steadfast", "Supportive", "Sensible"],
+        T: ["Talented", "Thoughtful", "Trustworthy", "Thankful", "Tender", "Tenacious", "Terrific", "Tranquil", "Tactful", "Truthful"],
+        U: ["Unique", "Upbeat", "Understanding", "United", "Unwavering", "Useful", "Uplifting", "Untiring", "Uncommon", "Upstanding"],
+        V: ["Vibrant", "Valiant", "Virtuous", "Vivid", "Versatile", "Vital", "Victorious", "Vigorous", "Venerable", "Vast"],
+        W: ["Wise", "Witty", "Warm", "Wonderful", "Willing", "Wealthy", "Wondrous", "Winsome", "Watchful", "Whimsical"],
+        X: ["Xenial", "Xeric", "Xenodochial", "Xenophobic", "Xenogenic", "Xylophonic", "Xylotomous", "Xenotropic", "Xenacious", "Xanthic"],
+        Y: ["Youthful", "Yellowish", "Yearning", "Yummy", "Yielding", "Yonder", "Yare", "Yeomanly", "Yawning", "Yo-yoing"],
+        Z: ["Zealous", "Zesty", "Zany", "Zenithal", "Zephyrous", "Zonal", "Zodiacal", "Zooming", "Zippy", "Zestful"]
     };
 
-    const nouns = {
-        A: ["apple", "anchor", "artist", "arrow", "ant", "airport", "army", "actor", "arch", "armor"],
-        B: ["ball", "banana", "bridge", "book", "button", "beach", "box", "bear", "bird", "bicycle"],
-        C: ["cat", "car", "castle", "cloud", "circle", "candle", "coin", "chair", "cup", "crab"],
-        D: ["dog", "door", "drum", "dancer", "desk", "dove", "diamond", "dragon", "doll", "dish"],
-        E: ["elephant", "eagle", "engine", "earth", "eye", "egg", "elbow", "envelope", "edge", "ember"],
-        F: ["flower", "frog", "fish", "forest", "flame", "feather", "fountain", "flag", "field", "fox"],
-        G: ["guitar", "garden", "glass", "gem", "giraffe", "glove", "goat", "gate", "gift", "grain"],
-        H: ["house", "hat", "horse", "hammer", "hill", "heart", "harp", "honey", "horizon", "helmet"],
-        I: ["island", "ice", "idea", "insect", "ink", "iron", "ivory", "item", "igloo", "illusion"],
-        J: ["jewel", "jungle", "jar", "jacket", "jet", "joker", "journal", "jug", "journey", "jam"],
-        K: ["kite", "key", "kangaroo", "king", "kitchen", "knot", "knife", "kitten", "kayak", "keyboard"],
-        L: ["lion", "lamp", "lake", "leaf", "ladder", "lighthouse", "lock", "log", "loaf", "lemon"],
-        M: ["mountain", "mirror", "mouse", "mask", "moon", "market", "monster", "map", "motor", "mist"],
-        N: ["nest", "needle", "necklace", "night", "name", "net", "nail", "note", "number", "novel"],
-        O: ["ocean", "orange", "owl", "oak", "oven", "organ", "onion", "orbit", "ox", "oasis"],
-        P: ["pencil", "painting", "puppy", "pearl", "pumpkin", "pond", "plane", "peach", "pot", "pan"],
-        Q: ["queen", "quill", "quilt", "quart", "question", "quartz", "queue", "quokka", "quiz", "quote"],
-        R: ["river", "rose", "rabbit", "ring", "rainbow", "rope", "road", "robot", "reef", "room"],
-        S: ["star", "sand", "ship", "shield", "stone", "sword", "sun", "shell", "storm", "seat"],
-        T: ["tree", "table", "tiger", "torch", "tower", "trail", "ticket", "tank", "tail", "train"],
-        U: ["umbrella", "universe", "urchin", "utensil", "uniform", "unit", "umpire", "upholstery", "uranium", "utopia"],
-        V: ["vase", "violin", "valley", "vulture", "vehicle", "village", "vine", "vault", "van", "victory"],
-        W: ["window", "water", "whale", "wagon", "wind", "wolf", "wheel", "wave", "wing", "wood"],
-        X: ["xylophone", "xenon", "xyst", "xerophyte", "xenolith", "xenophobe", "xiphoid", "xerography", "xanthin", "xenopus"],
-        Y: ["yacht", "yak", "yard", "yarn", "yawn", "year", "yolk", "yeti", "youth", "yield"],
-        Z: ["zebra", "zone", "zoo", "zigzag", "zeppelin", "zipper", "zenith", "zinnia", "zodiac", "zombie"]
-    };
+
 
     const pluralNouns = {
-        A: ["apples", "anchors", "artists", "arrows", "ants", "airports", "armies", "actors", "arches", "armors"],
-        B: ["balls", "bananas", "bridges", "books", "buttons", "beaches", "boxes", "bears", "birds", "bicycles"],
-        C: ["cats", "cars", "castles", "clouds", "circles", "candles", "coins", "chairs", "cups", "crabs"],
-        D: ["dogs", "doors", "drums", "dancers", "desks", "doves", "diamonds", "dragons", "dolls", "dishes"],
-        E: ["elephants", "eagles", "engines", "earths", "eyes", "eggs", "elbows", "envelopes", "edges", "embers"],
-        F: ["flowers", "frogs", "fish", "forests", "flames", "feathers", "fountains", "flags", "fields", "foxes"],
-        G: ["guitars", "gardens", "glasses", "gems", "giraffes", "gloves", "goats", "gates", "gifts", "grains"],
-        H: ["houses", "hats", "horses", "hammers", "hills", "hearts", "harps", "honeys", "horizons", "helmets"],
-        I: ["islands", "ices", "ideas", "insects", "inks", "irons", "ivories", "items", "igloos", "illusions"],
-        J: ["jewels", "jungles", "jars", "jackets", "jets", "jokers", "journals", "jugs", "journeys", "jams"],
-        K: ["kites", "keys", "kangaroos", "kings", "kitchens", "knots", "knives", "kittens", "kayaks", "keyboards"],
-        L: ["lions", "lamps", "lakes", "leaves", "ladders", "lighthouses", "locks", "logs", "loaves", "lemons"],
-        M: ["mountains", "mirrors", "mice", "masks", "moons", "markets", "monsters", "maps", "motors", "mists"],
-        N: ["nests", "needles", "necklaces", "nights", "names", "nets", "nails", "notes", "numbers", "novels"],
-        O: ["oceans", "oranges", "owls", "oaks", "ovens", "organs", "onions", "orbits", "oxen", "oases"],
-        P: ["pencils", "paintings", "puppies", "pearls", "pumpkins", "ponds", "planes", "peaches", "pots", "pans"],
-        Q: ["queens", "quills", "quilts", "quarts", "questions", "quartzes", "queues", "quokkas", "quizzes", "quotes"],
-        R: ["rivers", "roses", "rabbits", "rings", "rainbows", "ropes", "roads", "robots", "reefs", "rooms"],
-        S: ["stars", "sands", "ships", "shields", "stones", "swords", "suns", "shells", "storms", "seats"],
-        T: ["trees", "tables", "tigers", "torches", "towers", "trails", "tickets", "tanks", "tails", "trains"],
-        U: ["umbrellas", "universes", "urchins", "utensils", "uniforms", "units", "umpires", "upholsteries", "uraniums", "utopias"],
-        V: ["vases", "violins", "valleys", "vultures", "vehicles", "villages", "vines", "vaults", "vans", "victories"],
-        W: ["windows", "waters", "whales", "wagons", "winds", "wolves", "wheels", "waves", "wings", "woods"],
-        X: ["xylophones", "xenons", "xysts", "xerophytes", "xenoliths", "xenophobes", "xiphoids", "xerographies", "xanthins", "xenopuses"],
-        Y: ["yachts", "yaks", "yards", "yarns", "yawns", "years", "yolks", "yetis", "youths", "yields"],
-        Z: ["zebras", "zones", "zoos", "zigzags", "zeppelins", "zippers", "zeniths", "zinnias", "zodiacs", "zombies"]
+        A: ["Apples", "Anchors", "Artists", "Arrows", "Ants", "Airports", "Armies", "Actors", "Arches", "Armors"],
+        B: ["Balls", "Bananas", "Bridges", "Books", "Buttons", "Beaches", "Boxes", "Bears", "Birds", "Bicycles"],
+        C: ["Cats", "Cars", "Castles", "Clouds", "Circles", "Candles", "Coins", "Chairs", "Cups", "Crabs"],
+        D: ["Dogs", "Doors", "Drums", "Dancers", "Desks", "Doves", "Diamonds", "Dragons", "Dolls", "Dishes"],
+        E: ["Elephants", "Eagles", "Engines", "Earths", "Eyes", "Eggs", "Elbows", "Envelopes", "Edges", "Embers"],
+        F: ["Flowers", "Frogs", "Fish", "Forests", "Flames", "Feathers", "Fountains", "Flags", "Fields", "Foxes"],
+        G: ["Guitars", "Gardens", "Glasses", "Gems", "Giraffes", "Gloves", "Goats", "Gates", "Gifts", "Grains"],
+        H: ["Houses", "Hats", "Horses", "Hammers", "Hills", "Hearts", "Harps", "Honeys", "Horizons", "Helmets"],
+        I: ["Islands", "Ices", "Ideas", "Insects", "Inks", "Irons", "Ivories", "Items", "Igloos", "Illusions"],
+        J: ["Jewels", "Jungles", "Jars", "Jackets", "Jets", "Jokers", "Journals", "Jugs", "Journeys", "Jams"],
+        K: ["Kites", "Keys", "Kangaroos", "Kings", "Kitchens", "Knots", "Knives", "Kittens", "Kayaks", "Keyboards"],
+        L: ["Lions", "Lamps", "Lakes", "Leaves", "Ladders", "Lighthouses", "Locks", "Logs", "Loaves", "Lemons"],
+        M: ["Mountains", "Mirrors", "Mice", "Masks", "Moons", "Markets", "Monsters", "Maps", "Motors", "Mists"],
+        N: ["Nests", "Needles", "Necklaces", "Nights", "Names", "Nets", "Nails", "Notes", "Numbers", "Novels"],
+        O: ["Oceans", "Oranges", "Owls", "Oaks", "Ovens", "Organs", "Onions", "Orbits", "Oxen", "Oases"],
+        P: ["Pencils", "Paintings", "Puppies", "Pearls", "Pumpkins", "Ponds", "Planes", "Peaches", "Pots", "Pans"],
+        Q: ["Queens", "Quills", "Quilts", "Quarts", "Questions", "Quartzes", "Queues", "Quokkas", "Quizzes", "Quotes"],
+        R: ["Rivers", "Roses", "Rabbits", "Rings", "Rainbows", "Ropes", "Roads", "Robots", "Reefs", "Rooms"],
+        S: ["Stars", "Sands", "Ships", "Shields", "Stones", "Swords", "Suns", "Shells", "Storms", "Seats"],
+        T: ["Trees", "Tables", "Tigers", "Torches", "Towers", "Trails", "Tickets", "Tanks", "Tails", "Trains"],
+        U: ["Umbrellas", "Universes", "Urchins", "Utensils", "Uniforms", "Units", "Umpires", "Upholsteries", "Uraniums", "Utopias"],
+        V: ["Vases", "Violins", "Valleys", "Vultures", "Vehicles", "Villages", "Vines", "Vaults", "Vans", "Victories"],
+        W: ["Windows", "Waters", "Whales", "Wagons", "Winds", "Wolves", "Wheels", "Waves", "Wings", "Woods"],
+        X: ["Xylophones", "Xenons", "Xysts", "Xerophytes", "Xenoliths", "Xenophobes", "Xiphoids", "Xerographies", "Xanthins", "Xenopuses"],
+        Y: ["Yachts", "Yaks", "Yards", "Yarns", "Yawns", "Years", "Yolks", "Yetis", "Youths", "Yields"],
+        Z: ["Zebras", "Zones", "Zoos", "Zigzags", "Zeppelins", "Zippers", "Zeniths", "Zinnias", "Zodiacs", "Zombies"]
     };
 
     const verbs = {
-        A: ["adding", "approaching", "avoiding", "amplifying", "attracting", "accepting", "achieving", "advising", "arranging", "assisting"],
-        B: ["bringing", "building", "buying", "baking", "blending", "breaking", "balancing", "borrowing", "bothering", "believing"],
-        C: ["cooking", "catching", "carrying", "climbing", "cleaning", "collecting", "creating", "challenging", "considering", "controlling"],
-        D: ["drawing", "driving", "delivering", "defending", "describing", "distributing", "discovering", "destroying", "developing", "damaging"],
-        E: ["enjoying", "eating", "entering", "explaining", "emphasizing", "executing", "encouraging", "examining", "expecting", "expressing"],
-        F: ["fighting", "finding", "feeling", "filling", "focusing", "forgiving", "feeding", "following", "forming", "finishing"],
-        G: ["giving", "gathering", "growing", "gaining", "guiding", "grabbing", "granting", "grinning", "glaring", "growing"],
-        H: ["helping", "holding", "hitting", "hugging", "hearing", "hunting", "hiding", "handling", "hanging", "hurting"],
-        I: ["inviting", "improving", "introducing", "involving", "inspiring", "inspecting", "investigating", "increasing", "interrupting", "illustrating"],
-        J: ["joining", "judging", "jumping", "juggling", "joking", "jolting", "justifying", "jarring", "jabbing", "jamming"],
-        K: ["knowing", "kissing", "keeping", "kicking", "killing", "knowing", "kidnapping", "knocking", "kneeling", "knitting"],
-        L: ["looking", "leaving", "lifting", "listening", "linking", "learning", "lending", "loving", "lighting", "leading"],
-        M: ["making", "monitoring", "managing", "measuring", "mentioning", "mimicking", "moving", "maintaining", "mixing", "mapping"],
-        N: ["naming", "noticing", "narrating", "navigating", "needing", "notifying", "nurturing", "negotiating", "nurturing", "needing"],
-        O: ["opening", "offering", "observing", "organizing", "obtaining", "operating", "ordering", "overcoming", "offending", "optimizing"],
-        P: ["picking", "painting", "placing", "playing", "pushing", "preparing", "providing", "presenting", "posting", "pouring"],
-        Q: ["questioning", "quitting", "quoting", "quizzing", "quarreling", "qualifying", "quieting", "quenching", "quashing", "qualifying"],
-        R: ["removing", "reading", "receiving", "recommending", "restoring", "riding", "replacing", "reaching", "repeating", "recognizing"],
-        S: ["showing", "selling", "sending", "stealing", "solving", "serving", "supporting", "studying", "saying", "setting"],
-        T: ["taking", "telling", "teaching", "treating", "throwing", "touching", "transmitting", "trading", "trapping", "testing"],
-        U: ["using", "understanding", "uniting", "updating", "unlocking", "utilizing", "urging", "unloading", "upsetting", "upgrading"],
-        V: ["valuing", "visiting", "vowing", "verifying", "vexing", "voting", "vowing", "viewing", "validating", "vacuuming"],
-        W: ["washing", "writing", "watching", "winning", "wishing", "warming", "welcoming", "whispering", "wasting", "weighing"],
-        X: ["x-raying", "xeroxing", "xenogenizing", "xenophobing", "xenolinguisting", "x-challenging", "x-y-zing", "xeroxing", "x-ing", "x-outing"],
-        Y: ["yelling", "yearning", "yoking", "yielding", "yanking", "yapping", "yodeling", "yachting", "yowling", "yarning"],
-        Z: ["zooming", "zoning", "zipping", "zinging", "zapping", "zeroing", "zoning", "zapping", "zigzagging", "zigging"]
+        A: ["Adding", "Approaching", "Avoiding", "Amplifying", "Attracting", "Accepting", "Achieving", "Advising", "Arranging", "Assisting"],
+        B: ["Bringing", "Building", "Buying", "Baking", "Blending", "Breaking", "Balancing", "Borrowing", "Bothering", "Believing"],
+        C: ["Cooking", "Catching", "Carrying", "Climbing", "Cleaning", "Collecting", "Creating", "Challenging", "Considering", "Controlling"],
+        D: ["Drawing", "Driving", "Delivering", "Defending", "Describing", "Distributing", "Discovering", "Destroying", "Developing", "Damaging"],
+        E: ["Enjoying", "Eating", "Entering", "Explaining", "Emphasizing", "Executing", "Encouraging", "Examining", "Expecting", "Expressing"],
+        F: ["Fighting", "Finding", "Feeling", "Filling", "Focusing", "Forgiving", "Feeding", "Following", "Forming", "Finishing"],
+        G: ["Giving", "Gathering", "Growing", "Gaining", "Guiding", "Grabbing", "Granting", "Grinning", "Glaring", "Growing"],
+        H: ["Helping", "Holding", "Hitting", "Hugging", "Hearing", "Hunting", "Hiding", "Handling", "Hanging", "Hurting"],
+        I: ["Inviting", "Improving", "Introducing", "Involving", "Inspiring", "Inspecting", "Investigating", "Increasing", "Interrupting", "Illustrating"],
+        J: ["Joining", "Judging", "Jumping", "Juggling", "Joking", "Jolting", "Justifying", "Jarring", "Jabbing", "Jamming"],
+        K: ["Knowing", "Kissing", "Keeping", "Kicking", "Killing", "Knowing", "Kidnapping", "Knocking", "Kneeling", "Knitting"],
+        L: ["Looking", "Leaving", "Lifting", "Listening", "Linking", "Learning", "Lending", "Loving", "Lighting", "Leading"],
+        M: ["Making", "Monitoring", "Managing", "Measuring", "Mentioning", "Mimicking", "Moving", "Maintaining", "Mixing", "Mapping"],
+        N: ["Naming", "Noticing", "Narrating", "Navigating", "Needing", "Notifying", "Nurturing", "Negotiating", "Nurturing", "Needing"],
+        O: ["Opening", "Offering", "Observing", "Organizing", "Obtaining", "Operating", "Ordering", "Overcoming", "Offending", "Optimizing"],
+        P: ["Picking", "Painting", "Placing", "Playing", "Pushing", "Preparing", "Providing", "Presenting", "Posting", "Pouring"],
+        Q: ["Questioning", "Quitting", "Quoting", "Quizzing", "Quarreling", "Qualifying", "Quieting", "Quenching", "Quashing", "Qualifying"],
+        R: ["Removing", "Reading", "Receiving", "Recommending", "Restoring", "Riding", "Replacing", "Reaching", "Repeating", "Recognizing"],
+        S: ["Showing", "Selling", "Sending", "Stealing", "Solving", "Serving", "Supporting", "Studying", "Saying", "Setting"],
+        T: ["Taking", "Telling", "Teaching", "Treating", "Throwing", "Touching", "Transmitting", "Trading", "Trapping", "Testing"],
+        U: ["Using", "Understanding", "Uniting", "Updating", "Unlocking", "Utilizing", "Urging", "Unloading", "Upsetting", "Upgrading"],
+        V: ["Valuing", "Visiting", "Vowing", "Verifying", "Vexing", "Voting", "Vowing", "Viewing", "Varying", "Volunteering"],
+        W: ["Watching", "Walking", "Writing", "Wishing", "Waking", "Winning", "Washing", "Working", "Waiting", "Worrying"],
+        X: ["Xeroxing", "X-raying", "X-crossing", "X-positioning", "X-outlining", "X-encoding", "X-painting", "X-enabling", "X-judging", "X-rising"],
+        Y: ["Yawning", "Yielding", "Yelling", "Yearning", "Yodeling", "Yoking", "Yanking", "Yachting", "Yearning", "Yellowing"],
+        Z: ["Zipping", "Zooming", "Zapping", "Zoning", "Zigzagging", "Zesting", "Zipping", "Zeroing", "Zigging", "Zipping"]
     };
 
+    const adverbs = {
+        A: ["Abundantly", "Actively", "Angrily", "Anxiously", "Amazingly", "Awkwardly", "Aggressively", "Admirably", "Ardently", "Accurately"],
+        B: ["Beautifully", "Bravely", "Boldly", "Brightly", "Bitterly", "Briefly", "Blindly", "Boisterously", "Blissfully", "Broadly"],
+        C: ["Calmly", "Carefully", "Cautiously", "Cheerfully", "Clearly", "Cleverly", "Closely", "Completely", "Constantly", "Cruelly"],
+        D: ["Daintily", "Daringly", "Darkly", "Deeply", "Deliberately", "Delightfully", "Dramatically", "Doubtfully", "Dutifully", "Dreamily"],
+        E: ["Eagerly", "Easily", "Elegantly", "Energetically", "Enthusiastically", "Equally", "Especially", "Eternally", "Evenly", "Exactly"],
+        F: ["Faithfully", "Fast", "Ferociously", "Fiercely", "Foolishly", "Frankly", "Freely", "Frightfully", "Fully", "Furiously"],
+        G: ["Gently", "Generously", "Gladly", "Gracefully", "Gratefully", "Greatly", "Greedily", "Grimly", "Grotesquely", "Guiltily"],
+        H: ["Happily", "Hardly", "Harshly", "Hastily", "Heartily", "Heavily", "Helpfully", "Helplessly", "Highly", "Honestly"],
+        I: ["Immensely", "Impatiently", "Impulsively", "Independently", "Indifferently", "Innocently", "Instantly", "Intensely", "Intentionally", "Interestingly"],
+        J: ["Jealously", "Jovially", "Joyfully", "Judiciously", "Jubilantly", "Justly", "Jitterily", "Jokingly", "Jarringly", "Jauntily"],
+        K: ["Keenly", "Kindly", "Knowingly", "Knightly", "Kinetically", "Kookily", "Knowledgeably", "Knavishly", "Kleptically", "Knockingly"],
+        L: ["Lazily", "Loudly", "Lightly", "Lovingly", "Loosely", "Loyally", "Largely", "Lustfully", "Laughingly", "Lamentably"],
+        M: ["Madly", "Merrily", "Mostly", "Mechanically", "Mysteriously", "Magically", "Majestically", "Meaningfully", "Mercilessly", "Methodically"],
+        N: ["Narrowly", "Neatly", "Nervously", "Nicely", "Nobly", "Noisily", "Normally", "Noticeably", "Notoriously", "Nonchalantly"],
+        O: ["Obediently", "Obnoxiously", "Oddly", "Offensively", "Openly", "Optimistically", "Orderly", "Outrageously", "Outside", "Overtly"],
+        P: ["Painfully", "Patiently", "Perfectly", "Playfully", "Politely", "Poorly", "Powerfully", "Promptly", "Proudly", "Purposefully"],
+        Q: ["Quickly", "Quietly", "Quirkily", "Questionably", "Quaintly", "Quarrelsomely", "Queasily", "Quick-wittedly", "Quizzically", "Quotably"],
+        R: ["Rapidly", "Rashly", "Rarely", "Readily", "Recklessly", "Regularly", "Reluctantly", "Remorselessly", "Repeatedly", "Respectfully"],
+        S: ["Safely", "Savagely", "Seriously", "Sharply", "Silently", "Sincerely", "Slowly", "Smoothly", "Softly", "Steadily"],
+        T: ["Tenderly", "Terribly", "Thankfully", "Thoughtfully", "Tightly", "Tirelessly", "Tragically", "Truthfully", "Timidly", "Thoroughly"],
+        U: ["Unexpectedly", "Ungratefully", "Unhappily", "Uniquely", "Unjustly", "Unkindly", "Unnecessarily", "Upbeatly", "Urgently", "Utterly"],
+        V: ["Vaguely", "Vainly", "Valiantly", "Verbally", "Viciously", "Victoriously", "Violently", "Visibly", "Voluntarily", "Vividly"],
+        W: ["Warmly", "Weakly", "Wearily", "Weirdly", "Wildly", "Willingly", "Wisely", "Wistfully", "Wittily", "Wonderfully"],
+        X: ["Xenophobically", "Xerographically", "Xenogenetically", "Xeroxingly", "Xtravagantly", "Xpertly", "Xaggeratedly", "Xactly", "Xanly", "Xylophonically"],
+        Y: ["Yearningly", "Yieldingly", "Youthfully", "Yawningly", "Yellingly", "Yesterdays", "Yonderly", "Yummily", "Yearningly", "Yawningly"],
+        Z: ["Zealously", "Zestfully", "Ziggily", "Zanily", "Zonally", "Zestily", "Zippily", "Zoomingly", "Zonkedly", "Zigzaggingly"]
+    };
 
+    const conjs = [
+        "as ",
+        "and ",
+        "due to ",
+        "because of ",
+        "or "
+    ]
 
     let i = 0;
 
@@ -422,34 +484,149 @@
             wrapped = true;
         }
 
-        send.style.left = positionX + "px";
+        send.style.left = positionX + 50 + "px";
 
-        if (positionX >= originalX - 65 && wrapped) { wrapped = false; }
+        if (positionX >= originalX + 100 && wrapped) { wrapped = false; }
         else { requestAnimationFrame(sendFly); }
 
     }
 
-    function hasNumber(str) {
-        return /\d/.test(str);
-    }
-
     function generateResponse(input) {
-        let uppercaseString = input.toUpperCase();
-        let inputlength = input.length;
-        let isnum = /^\d+$/.test(input);
-        if (hasNumber(input) == true) {
-            output.innerHTML = "Please don't submit any numbers";
-            return;
-        }
+        let checkbox = document.getElementById("checkbox");
+        let uppercaseInput = input.toUpperCase();
+        let lowercaseInput = input.toLowerCase();
 
-        switch(inputlength) {
+        let srtxt = lowercaseInput.replace(/\s/g, '');
+        let rawtxt = srtxt.replace(/[^a-zA-Z ]/g, "");
+        let inputlength = rawtxt.length;
+
+        let split = rawtxt.split('');
+
+        console.log("Raw text:", rawtxt);
+
+        switch (inputlength) {
+            case 0:
+                output.innerHTML = "LOL YOU RIZZLER PUT SOME TEXT IN";
+                break;
             case 1:
                 output.innerHTML = "Please submit more than one letter";
                 break;
             case 2:
+                output.innerHTML = getWord(split[0], adjectives) + " " + getWord(split[1], pluralNouns);
                 break;
+            case 3:
+                output.innerHTML = getWord(split[0], pluralNouns) + " " + getWord(split[1], verbs) + " " + getWord(split[2], pluralNouns);
+                break;
+            case 4:
+                output.innerHTML = getWord(split[0], adjectives) + " " + getWord(split[1], pluralNouns) + " " + getWord(split[2], verbs) + " " + getWord(split[3], pluralNouns);
+                break;
+            case 5:
+                output.innerHTML = getWord(split[0], adjectives) + " " + getWord(split[1], pluralNouns) + " " + getWord(split[2], adverbs) + " " + getWord(split[3], verbs) + " " + getWord(split[4], pluralNouns);
+                break;
+            case 6:
+                output.innerHTML = getWord(split[0], adjectives) + " " + getWord(split[1], pluralNouns) + " " + getWord(split[2], adverbs) + " " + getWord(split[3], verbs) + " " + getWord(split[4], adjectives) + " " + getWord(split[5], pluralNouns);
+                break;
+            case 7:
+                output.innerHTML = getWord(split[0], adjectives) + ", " + getWord(split[1], adjectives) + ", " + getWord(split[2], pluralNouns) + " " + getWord(split[3], adverbs) + " " + getWord(split[4], verbs) + " " + getWord(split[5], adjectives) + " " + getWord(split[6], pluralNouns);
+                break;
+            case 8:
+                output.innerHTML = getWord(split[0], adjectives) + ", " + getWord(split[1], adjectives) + ", " + getWord(split[2], pluralNouns) + " " + getWord(split[3], adverbs) + " " + getWord(split[4], verbs) + " " + getWord(split[5], adjectives) + ", " + getWord(split[6], adjectives) + ", " + getWord(split[7], pluralNouns);
+                break;
+            case 9:
+                if(checkbox.checked == true) {
+                    let conj = Math.floor(Math.random() * conjs.length);
+                    output.innerHTML = getWord(split[0], adjectives) + " " + getWord(split[1], pluralNouns) + " " + getWord(split[2], verbs) + " " + getWord(split[3], pluralNouns) + " " + conjs[conj] + getWord(split[4], pluralNouns) + " " + getWord(split[5], verbs) + " " + getWord(split[6], adjectives) + ", " + getWord(split[7], adjectives) + ", " + getWord(split[8], pluralNouns);
+                    break;
+                }
+                else {
+                    output.innerHTML = getWord(split[0], adjectives) + ", " + getWord(split[1], adjectives) + ", " + getWord(split[2], pluralNouns) + " " + getWord(split[3], adverbs) + ", " + getWord(split[4], adverbs) + ", " + getWord(split[5], verbs) + " " + getWord(split[6], adjectives) + ", " + getWord(split[7], adjectives) + ", " + getWord(split[8], pluralNouns);
+                    break;
+                }
+
+                
             default:
-                output.innerHTML = "Error with switch function, please try again.";
+                let errorChance = Math.floor(Math.random() * 5);
+                let errorMsg = "Womp womp. Try a smaller input or reloading.";
+                switch(errorChance) {
+                    case 0:
+                        errorMsg = "Hold your horses now. I thinks your input may have been too long... if not, reload!";
+                        break;
+                    case 1:
+                        errorMsg = "Uh oh. Try a smaller input, or maybe reload the page.";
+                        break;
+                    case 2:
+                        errorMsg = "THE ACRONYMONSTER GOT YOU. USE A SMALLER INPUT! (or reload page)";
+                        break;
+                    case 3:
+                        errorMsg = "What the skibidi toilet sigma Ohio rizzler fanum tax???/?? Try shortening your sigma input or reloading the skibidi page.";
+                        break;
+                    default:
+                        break;
+                }
+                    
+                output.innerHTML = errorMsg;
+        }
+    }
+
+    function getWord(letter, object) {
+        let randWord = Math.floor(Math.random() * object[letter.toUpperCase()].length);
+        letter = letter.toLowerCase();
+
+        switch (letter) {
+            case 'a':
+                return object.A[randWord];
+            case 'b':
+                return object.B[randWord];
+            case 'c':
+                return object.C[randWord];
+            case 'd':
+                return object.D[randWord];
+            case 'e':
+                return object.E[randWord];
+            case 'f':
+                return object.F[randWord];
+            case 'g':
+                return object.G[randWord];
+            case 'h':
+                return object.H[randWord];
+            case 'i':
+                return object.I[randWord];
+            case 'j':
+                return object.J[randWord];
+            case 'k':
+                return object.K[randWord];
+            case 'l':
+                return object.L[randWord];
+            case 'm':
+                return object.M[randWord];
+            case 'n':
+                return object.N[randWord];
+            case 'o':
+                return object.O[randWord];
+            case 'p':
+                return object.P[randWord];
+            case 'q':
+                return object.Q[randWord];
+            case 'r':
+                return object.R[randWord];
+            case 's':
+                return object.S[randWord];
+            case 't':
+                return object.T[randWord];
+            case 'u':
+                return object.U[randWord];
+            case 'v':
+                return object.V[randWord];
+            case 'w':
+                return object.W[randWord];
+            case 'x':
+                return object.X[randWord];
+            case 'y':
+                return object.Y[randWord];
+            case 'z':
+                return object.Z[randWord];
+            default:
+                return "Invalid input. Please provide a lowercase letter from 'a' to 'z'.";
         }
     }
 
