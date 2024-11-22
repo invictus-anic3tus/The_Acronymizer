@@ -154,6 +154,18 @@
     .checkmark {
         size: 25px;
     }
+
+    #ee {
+        position: absolute;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0px;
+        left: 500px;
+        top: 0px;
+        width: 50%;
+        display: none;
+    }
 </style>
 
 <body>
@@ -183,12 +195,72 @@
     </label>
 
     <div id="note">All numbers, spaces, and special characters will be ignored.</div>
+
+    <input type="image" src="slackdude.png" id="ee">
 </body>
 <script>
     const title = document.getElementById("title");
     const navbar = document.getElementById("navbar");
     const send = document.getElementById("send");
     const output = document.getElementById("output");
+    const checkbox = document.getElementById("checkbox");
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key == 'a') {
+            easteregg(1);
+        }
+        if (event.key == 'n') {
+            easteregg(2);
+        }
+        if (event.key == 'i') {
+            easteregg(3);
+        }
+        if (event.key == 'c') {
+            easteregg(4);
+        }
+    });
+    let step1 = false;
+    let step2 = false;
+    let step3 = false;
+    let step4 = false;
+
+    function easteregg(step) {
+        switch(step) {
+            case 1:
+                step1 = true;
+                break;
+            case 2:
+                if(step1) {
+                    step2 = true;
+                }
+                break;
+            case 3:
+                if(step1 && step2) {
+                    step3 = true;
+                }
+                else {
+                    step1 = false;
+                    step2 = false;
+                }
+                break;
+            case 4:
+                if(step1 && step2 && step3) {
+                    step4 = true;
+                    runeasteregg();
+                }
+                else {
+                    step1 = false;
+                    step2 = false;
+                    step3 = false;
+                }
+                break;
+            default:
+                break;
+        }
+        function runeasteregg() {
+            document.getElementById("ee").style.display = "inherit";
+        }
+    }
 
     const ms = 100;
     var inputtext = "";
@@ -492,7 +564,6 @@
     }
 
     function generateResponse(input) {
-        let checkbox = document.getElementById("checkbox");
         let uppercaseInput = input.toUpperCase();
         let lowercaseInput = input.toLowerCase();
 
